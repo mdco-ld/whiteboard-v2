@@ -13,7 +13,7 @@ const Vec2 Vec2::Y = Vec2{.x = 0, .y = 1};
     return std::sqrt(x * x + y * y);
 }
 
-[[nodiscard]] int shoelace(Vec2 point1, Vec2 point2) noexcept {
+[[nodiscard]] inline int shoelace(Vec2 point1, Vec2 point2) noexcept {
     return point1.x * point2.y - point1.y * point2.x;
 }
 

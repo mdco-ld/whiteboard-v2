@@ -1,11 +1,31 @@
 [
 {
   "directory": "/home/miguel/projects/wb-v2",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Isrc", "-DDEBUG_MODE", "-o", "build/.objs/wb/linux/x86_64/debug/src/geometry.cpp.o", "src/geometry.cpp"],
-  "file": "src/geometry.cpp"
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/geometry.cpp.o", "src/wb/geometry.cpp"],
+  "file": "src/wb/geometry.cpp"
 },
 {
   "directory": "/home/miguel/projects/wb-v2",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Isrc", "-DDEBUG_MODE", "-o", "build/.objs/wb/linux/x86_64/debug/src/main.cpp.o", "src/main.cpp"],
-  "file": "src/main.cpp"
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/view.cpp.o", "src/wb/view.cpp"],
+  "file": "src/wb/view.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/cmd/tests.cpp.o", "src/cmd/tests.cpp"],
+  "file": "src/cmd/tests.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/wb/linux/x86_64/debug/src/wb/geometry.cpp.o", "src/wb/geometry.cpp"],
+  "file": "src/wb/geometry.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/wb/linux/x86_64/debug/src/wb/view.cpp.o", "src/wb/view.cpp"],
+  "file": "src/wb/view.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/wb/linux/x86_64/debug/src/cmd/wb.cpp.o", "src/cmd/wb.cpp"],
+  "file": "src/cmd/wb.cpp"
 }]
