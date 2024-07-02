@@ -56,4 +56,29 @@ Vec2 operator*(Vec2 point1, int scale) noexcept {
     return true;
 }
 
+[[nodiscard]] bool Box::contains(Vec2 point) const noexcept {
+    return position.x <= point.x && point.x <= position.x + size.x &&
+           position.y <= point.y && point.y <= position.y + size.y;
+}
+
+[[nodiscard]] bool Box::intersects(LineSegment line) const noexcept {
+    if (line.intersects(LineSegment{.start = position,
+                                    .end = position + Vec2::X * size.x})) {
+        return true;
+    }
+    if (line.intersects(LineSegment{.start = position,
+                                    .end = position + Vec2::Y * size.y})) {
+        return true;
+    }
+    if (line.intersects(LineSegment{.start = position + size,
+                                    .end = position + Vec2::X * size.x})) {
+        return true;
+    }
+    if (line.intersects(LineSegment{.start = position + size,
+                                    .end = position + Vec2::Y * size.y})) {
+        return true;
+    }
+    return false;
+}
+
 }; // namespace geometry

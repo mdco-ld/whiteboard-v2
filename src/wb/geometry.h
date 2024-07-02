@@ -37,7 +37,7 @@ struct LineSegment {
 
 struct Box {
     Vec2 position;
-    Vec2 dimensions;
+    Vec2 size;
 
     [[nodiscard]] bool contains(Vec2) const noexcept;
     [[nodiscard]] bool intersects(LineSegment) const noexcept;
