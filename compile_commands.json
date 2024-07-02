@@ -1,0 +1,11 @@
+[
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Isrc", "-DDEBUG_MODE", "-o", "build/.objs/wb/linux/x86_64/debug/src/geometry.cpp.o", "src/geometry.cpp"],
+  "file": "src/geometry.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Isrc", "-DDEBUG_MODE", "-o", "build/.objs/wb/linux/x86_64/debug/src/main.cpp.o", "src/main.cpp"],
+  "file": "src/main.cpp"
+}]
