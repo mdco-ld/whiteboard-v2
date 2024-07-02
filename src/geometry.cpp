@@ -1,5 +1,7 @@
 #include <wb/geometry.h>
 
+#include <wb/utils.h>
+
 #include <cmath>
 
 namespace geometry {
@@ -25,7 +27,7 @@ const Vec2 Vec2::Y = Vec2{.x = 0, .y = 1};
     if (area > 0) {
         return Orientation::Counterclockwise;
     }
-    return Orientation::Counterclockwise;
+    return Orientation::Clockwise;
 }
 
 Vec2 operator+(Vec2 point1, Vec2 point2) noexcept {
@@ -79,6 +81,32 @@ Vec2 operator*(Vec2 point1, int scale) noexcept {
         return true;
     }
     return false;
+}
+
+std::ostream &operator<<(std::ostream &out, Vec2 point) {
+    return out << "Vec2(" << point.x << ", " << point.y << ")";
+}
+
+std::ostream &operator<<(std::ostream &out, Orientation orientation) {
+    switch (orientation) {
+    case Orientation::None:
+        return out << "Orientation::None";
+    case Orientation::Counterclockwise:
+        return out << "Orientation::Counterclockwise";
+    case Orientation::Clockwise:
+        return out << "Orientation::Clockwise";
+    }
+    return out << "Orientation::Invalid";
+}
+
+std::ostream &operator<<(std::ostream &out, LineSegment line) {
+    return out << "Line[start = (" << line.start.x << ", " << line.start.y
+               << "), end = (" << line.end.x << ", " << line.end.y << ")]";
+}
+
+std::ostream &operator<<(std::ostream &out, Box box) {
+    return out << "Box[position = " << box.position << ", size = " << box.size
+               << "]";
 }
 
 }; // namespace geometry

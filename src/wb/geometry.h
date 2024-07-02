@@ -1,6 +1,8 @@
 #ifndef _GEOMETRY_H_
 #define _GEOMETRY_H_
 
+#include <ostream>
+
 namespace geometry {
 
 struct Vec2 {
@@ -43,6 +45,11 @@ struct Box {
     [[nodiscard]] bool intersects(LineSegment) const noexcept;
     [[nodiscard]] bool intersects(Box) const noexcept;
 };
+
+std::ostream& operator<<(std::ostream&, Vec2);
+std::ostream& operator<<(std::ostream&, Orientation);
+std::ostream& operator<<(std::ostream&, LineSegment);
+std::ostream& operator<<(std::ostream&, Box);
 
 }; // namespace geometry
 

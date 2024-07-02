@@ -5,6 +5,7 @@ target("wb")
 	add_files("src/*.cpp")
 	add_packages("raylib")
 	add_includedirs("src")
+	set_warnings("all")
 	if is_mode("debug") then
 		add_defines("DEBUG_MODE")
 	end
