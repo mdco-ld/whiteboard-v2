@@ -52,6 +52,19 @@ Drawing Drawing::finalizeDrawing(PartialDrawing &partialDrawing) {
     return result;
 }
 
+Drawing Drawing::fromPoints(std::vector<geometry::Vec2> &points) {
+    Drawing result;
+    if (points.size() == 1) {
+        result.m_points.push_back(points.front());
+    } else {
+        for (std::size_t i = 1; i < points.size(); i++) {
+            result.m_lineSegments.push_back(
+                geometry::LineSegment{points[i - 1], points[i]});
+        }
+    }
+    return result;
+}
+
 [[nodiscard]] const std::vector<geometry::Vec2> &
 Drawing::getPoints() const noexcept {
     return m_points;

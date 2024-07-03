@@ -21,6 +21,7 @@ class PartialDrawing {
 class Drawing {
   public:
 	static Drawing finalizeDrawing(PartialDrawing &);
+	static Drawing fromPoints(std::vector<geometry::Vec2> &);
 
     [[nodiscard]] const std::vector<geometry::Vec2> &getPoints() const noexcept;
     [[nodiscard]] const std::vector<geometry::LineSegment> &getLineSegments() const noexcept;
