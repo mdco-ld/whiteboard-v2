@@ -18,25 +18,37 @@ PartialDrawing::getPoints() noexcept {
     return m_points;
 }
 
+bool almostCollinear(geometry::Vec2 point1, geometry::Vec2 point2,
+                     geometry::Vec2 point3) {
+    static const float threshold = 0.0025;
+    float totalLength = (point2 - point1).length() + (point3 - point2).length();
+    float reducedLength = (point3 - point1).length();
+    if ((totalLength - reducedLength) / reducedLength < threshold) {
+        return true;
+    }
+    return false;
+}
+
 Drawing Drawing::finalizeDrawing(PartialDrawing &partialDrawing) {
     Drawing result;
     auto points = partialDrawing.getPoints();
+    PRINT_DBG(points.size());
     if (points.size() == 1) {
         result.m_points.push_back(points.front());
     } else {
-		geometry::Vec2 lastPoint = points.front();
+        geometry::Vec2 lastPoint = points.front();
         for (std::size_t i = 1; i < points.size(); i++) {
             if (i + 1 < points.size()) {
-                if (geometry::LineSegment{points[i - 1], points[i + 1]}
-                        .contains(points[i])) {
-					continue;
+                if (almostCollinear(lastPoint, points[i], points[i + 1])) {
+                    continue;
                 }
             }
             result.m_lineSegments.push_back(
                 geometry::LineSegment{lastPoint, points[i]});
-			lastPoint = points[i];
+            lastPoint = points[i];
         }
     }
+    PRINT_DBG(result.m_lineSegments.size());
     return result;
 }
 
@@ -58,7 +70,7 @@ Drawing::intersects(geometry::LineSegment line) const noexcept {
         }
     }
     for (geometry::Vec2 point : m_points) {
-        if (line.contains(point)) {
+        if (almostCollinear(line.start, point, line.end)) {
             return true;
         }
     }

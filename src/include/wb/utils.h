@@ -19,7 +19,7 @@ void _printd(const char *filename, int lineNumber, const char *thingName,
 #else
 
 #define PRINT_DBG(x)
-#define DEBUG_ONLY(__VA_ARGS__)
+#define DEBUG_ONLY(...)
 
 #endif
 
