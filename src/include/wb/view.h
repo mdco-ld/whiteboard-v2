@@ -18,14 +18,14 @@ class View {
     getViewPosition(geometry::Vec2 screenPosition) const noexcept;
     [[nodiscard]] geometry::Vec2
     getScreenPosition(geometry::Vec2 viewPosition) const noexcept;
-    [[nodiscard]] float getZoom() const noexcept;
+    [[nodiscard]] int getZoom() const noexcept;
 
     [[nodiscard]] geometry::Vec2 getPosition() const noexcept;
     [[nodiscard]] geometry::Vec2 getSize() const noexcept;
 
   private:
     geometry::Box m_boundingBox;
-    float m_zoom;
+    int m_zoom;
 };
 
 }; // namespace wb

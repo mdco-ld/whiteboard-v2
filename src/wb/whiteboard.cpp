@@ -174,15 +174,16 @@ void renderWhiteboard(Whiteboard &w) {
     switch (w.mode) {
     case Whiteboard::Mode::Draw:
         ss << "DRAW ";
-		break;
+        break;
     case Whiteboard::Mode::Erase:
         ss << "ERASE ";
-		break;
+        break;
     case Whiteboard::Mode::Move:
         ss << "MOVE ";
-		break;
+        break;
     }
-    ss << "X: " << w.view.getPosition().x << " Y: " << w.view.getPosition().y;
+    ss << "X: " << w.view.getPosition().x << " Y: " << w.view.getPosition().y
+       << " | " << w.view.getZoom() << "%";
     rendering::renderStatusBar(w.view, ss.str());
 }
 

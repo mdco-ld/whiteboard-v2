@@ -29,7 +29,6 @@ Drawing Drawing::finalizeDrawing(PartialDrawing &partialDrawing) {
             if (i + 1 < points.size()) {
                 if (geometry::LineSegment{points[i - 1], points[i + 1]}
                         .contains(points[i])) {
-					PRINT_DBG("Optimized point");
 					continue;
                 }
             }

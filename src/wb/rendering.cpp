@@ -15,7 +15,7 @@ Vector2 tovec(geometry::Vec2 point) {
 
 void render(wb::View &view, geometry::Vec2 point) {
     geometry::Vec2 screenPosition = view.getScreenPosition(point);
-    DrawCircle(screenPosition.x, screenPosition.y, view.getZoom() * 2.0f,
+    DrawCircle(screenPosition.x, screenPosition.y, view.getZoom() * 2.0f / 100,
                BLACK);
 }
 
@@ -23,8 +23,8 @@ void render(wb::View &view, geometry::LineSegment line) {
     render(view, line.start);
     render(view, line.end);
     DrawLineEx(tovec(view.getScreenPosition(line.start)),
-               tovec(view.getScreenPosition(line.end)), 4.0f * view.getZoom(),
-               BLACK);
+               tovec(view.getScreenPosition(line.end)),
+               4.0f * view.getZoom() / 100, BLACK);
 }
 
 void render(wb::View &view, wb::PartialDrawing &drawing) {
