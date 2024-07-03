@@ -29,6 +29,7 @@ Vec2 operator+(Vec2, Vec2) noexcept;
 Vec2 operator-(Vec2, Vec2) noexcept;
 Vec2 operator-(Vec2) noexcept;
 Vec2 operator*(Vec2, int) noexcept;
+bool operator==(Vec2, Vec2) noexcept;
 
 struct LineSegment {
     Vec2 start;

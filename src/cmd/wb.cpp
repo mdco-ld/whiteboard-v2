@@ -1,7 +1,6 @@
-#include <raylib.h>
-#include <wb/utils.h>
-#include <wb/geometry.h>
+#include <wb/whiteboard.h>
 
 int main() {
+	wb::runWhiteboard();
     return 0;
 }

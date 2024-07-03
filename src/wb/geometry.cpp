@@ -46,6 +46,10 @@ Vec2 operator*(Vec2 point1, int scale) noexcept {
     return Vec2{.x = -point1.x, .y = -point1.y};
 }
 
+bool operator==(Vec2 point1, Vec2 point2) noexcept {
+    return point1.x == point2.x && point1.y == point2.y;
+}
+
 [[nodiscard]] bool LineSegment::intersects(LineSegment other) const noexcept {
     if (getOrientation(start, end, other.start) ==
         getOrientation(start, end, other.end)) {

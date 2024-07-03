@@ -20,6 +20,7 @@ target("tests")
 	set_kind("binary")
 	add_files("src/wb/*.cpp")
 	add_files("src/cmd/tests.cpp")
+	add_packages("raylib")
 	add_includedirs("src/include")
 	set_warnings("all")
 	if is_mode("debug") then
