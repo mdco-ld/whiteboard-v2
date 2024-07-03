@@ -21,6 +21,7 @@ class View {
     [[nodiscard]] float getZoom() const noexcept;
 
     [[nodiscard]] geometry::Vec2 getPosition() const noexcept;
+    [[nodiscard]] geometry::Vec2 getSize() const noexcept;
 
   private:
     geometry::Box m_boundingBox;

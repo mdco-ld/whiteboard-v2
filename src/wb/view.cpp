@@ -6,7 +6,7 @@
 namespace wb {
 
 static const float DEFAULT_ZOOM = 1.0f;
-static const float MIN_ZOOM = 0.1f;
+static const float MIN_ZOOM = 0.4f;
 static const float MAX_ZOOM = 5.0f;
 
 View::View(geometry::Vec2 position, geometry::Vec2 size) {
@@ -50,7 +50,7 @@ View::getScreenPosition(geometry::Vec2 viewPosition) const noexcept {
 void View::resetZoom() noexcept { m_zoom = DEFAULT_ZOOM; }
 
 void View::zoom(geometry::Vec2 center, float z) noexcept {
-    float multiplier = std::pow(2.0f, z);
+    float multiplier = std::pow(2.0f, 0.45 * z);
     float newZoom = std::clamp(m_zoom * multiplier, MIN_ZOOM, MAX_ZOOM);
     multiplier = newZoom / m_zoom;
 
@@ -65,6 +65,10 @@ void View::zoom(geometry::Vec2 center, float z) noexcept {
 
 geometry::Vec2 View::getPosition() const noexcept {
     return m_boundingBox.position;
+}
+
+geometry::Vec2 View::getSize() const noexcept {
+    return m_boundingBox.size;
 }
 
 }; // namespace wb

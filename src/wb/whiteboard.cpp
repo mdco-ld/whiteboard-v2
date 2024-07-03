@@ -90,6 +90,7 @@ void processInput(Whiteboard &w) {
     auto previousMode = w.mode;
     if (IsWindowResized()) {
         w.view.setSize(geometry::Vec2{GetScreenWidth(), GetScreenHeight()});
+        PRINT_DBG(w.view.getSize());
     }
     if (IsKeyPressed(KEY_E)) {
         w.mode = Whiteboard::Mode::Erase;
@@ -104,6 +105,9 @@ void processInput(Whiteboard &w) {
         PRINT_DBG(w.mode);
     }
     w.mousePosition = getMousePos();
+
+    float wheelMove = GetMouseWheelMove();
+    w.view.zoom(w.mousePosition, wheelMove);
 }
 
 void renderWhiteboard(Whiteboard &w) {
