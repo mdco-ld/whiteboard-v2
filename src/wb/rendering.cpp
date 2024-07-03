@@ -33,4 +33,13 @@ void render(wb::View &view, wb::PartialDrawing &drawing) {
     }
 }
 
+void render(wb::View &view, wb::Drawing &drawing) {
+    for (geometry::Vec2 point : drawing.points) {
+        render(view, point);
+    }
+    for (geometry::LineSegment line : drawing.lineSegments) {
+        render(view, line);
+    }
+}
+
 }; // namespace rendering

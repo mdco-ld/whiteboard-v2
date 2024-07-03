@@ -6,6 +6,11 @@
 
 namespace wb {
 
+struct Drawing {
+	std::vector<geometry::Vec2> points;
+	std::vector<geometry::LineSegment> lineSegments;
+};
+
 class PartialDrawing {
   public:
     PartialDrawing();
@@ -17,6 +22,8 @@ class PartialDrawing {
   private:
     std::vector<geometry::Vec2> m_points;
 };
+
+Drawing finalizeDrawing(PartialDrawing &);
 
 }; // namespace wb
 

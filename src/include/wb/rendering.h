@@ -10,6 +10,7 @@ namespace rendering {
 void render(wb::View &, geometry::Vec2);
 void render(wb::View &, geometry::LineSegment);
 void render(wb::View &, wb::PartialDrawing &);
+void render(wb::View &, wb::Drawing &);
 
 }; // namespace rendering
 

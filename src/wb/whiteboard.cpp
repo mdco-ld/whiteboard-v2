@@ -1,3 +1,4 @@
+#include <vector>
 #include <wb/whiteboard.h>
 
 #include <ostream>
@@ -26,6 +27,7 @@ struct Whiteboard {
     View view;
     Mode mode;
     PartialDrawing currentDrawing;
+    std::vector<Drawing> drawings;
     geometry::Vec2 mousePosition;
 
     Whiteboard()
@@ -62,18 +64,43 @@ void processInputMove(Whiteboard &w) {
                 changed = false;
                 PRINT_DBG(w.view.getPosition());
             }
-        })
+        });
     }
 }
 
 void processInputDraw(Whiteboard &w) {
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
         geometry::Vec2 mousePosition = w.view.getViewPosition(getMousePos());
+        if (mousePosition == w.mousePosition &&
+            !w.currentDrawing.getPoints().empty()) {
+            return;
+        }
         w.currentDrawing.addPoint(mousePosition);
+    } else {
+        if (w.currentDrawing.getPoints().empty()) {
+            return;
+        }
+        w.drawings.push_back(finalizeDrawing(w.currentDrawing));
+        w.currentDrawing.clear();
     }
 }
 
 void processInputErase(Whiteboard &w) {}
+
+void cleanupLastMode(Whiteboard &w, Whiteboard::Mode lastMode) {
+    switch (lastMode) {
+    case Whiteboard::Mode::Draw:
+        if (!w.currentDrawing.getPoints().empty()) {
+            w.drawings.push_back(finalizeDrawing(w.currentDrawing));
+            w.currentDrawing.clear();
+        }
+        break;
+    case Whiteboard::Mode::Erase:
+        break;
+    case Whiteboard::Mode::Move:
+        break;
+    }
+}
 
 void processInput(Whiteboard &w) {
     switch (w.mode) {
@@ -102,9 +129,14 @@ void processInput(Whiteboard &w) {
         w.mode = Whiteboard::Mode::Move;
     }
     if (w.mode != previousMode) {
+        cleanupLastMode(w, previousMode);
         PRINT_DBG(w.mode);
     }
     w.mousePosition = getMousePos();
+
+    if (IsKeyPressed(KEY_ZERO)) {
+        w.view.resetZoom();
+    }
 
     float wheelMove = GetMouseWheelMove();
     w.view.zoom(w.mousePosition, wheelMove);
@@ -112,6 +144,9 @@ void processInput(Whiteboard &w) {
 
 void renderWhiteboard(Whiteboard &w) {
     rendering::render(w.view, w.currentDrawing);
+    for (Drawing &drawing : w.drawings) {
+        rendering::render(w.view, drawing);
+    }
 }
 
 void runWhiteboard() {
