@@ -1,8 +1,23 @@
 [
 {
   "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/drawing.cpp.o", "src/wb/drawing.cpp"],
+  "file": "src/wb/drawing.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/rendering.cpp.o", "src/wb/rendering.cpp"],
+  "file": "src/wb/rendering.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
   "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/geometry.cpp.o", "src/wb/geometry.cpp"],
   "file": "src/wb/geometry.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/whiteboard.cpp.o", "src/wb/whiteboard.cpp"],
+  "file": "src/wb/whiteboard.cpp"
 },
 {
   "directory": "/home/miguel/projects/wb-v2",
@@ -16,8 +31,23 @@
 },
 {
   "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/wb/linux/x86_64/debug/src/wb/drawing.cpp.o", "src/wb/drawing.cpp"],
+  "file": "src/wb/drawing.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/wb/linux/x86_64/debug/src/wb/rendering.cpp.o", "src/wb/rendering.cpp"],
+  "file": "src/wb/rendering.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
   "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/wb/linux/x86_64/debug/src/wb/geometry.cpp.o", "src/wb/geometry.cpp"],
   "file": "src/wb/geometry.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/wb/linux/x86_64/debug/src/wb/whiteboard.cpp.o", "src/wb/whiteboard.cpp"],
+  "file": "src/wb/whiteboard.cpp"
 },
 {
   "directory": "/home/miguel/projects/wb-v2",

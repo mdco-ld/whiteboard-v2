@@ -14,9 +14,12 @@ void _printd(const char *filename, int lineNumber, const char *thingName,
 
 #define PRINT_DBG(x) _printd(__FILE__, __LINE__, #x, x)
 
+#define DEBUG_ONLY(__VA_ARGS__) __VA_ARGS__
+
 #else
 
 #define PRINT_DBG(x)
+#define DEBUG_ONLY(__VA_ARGS__)
 
 #endif
 

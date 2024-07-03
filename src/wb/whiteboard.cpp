@@ -3,6 +3,8 @@
 #include <ostream>
 #include <raylib.h>
 #include <wb/drawing.h>
+#include <wb/geometry.h>
+#include <wb/rendering.h>
 #include <wb/utils.h>
 #include <wb/view.h>
 
@@ -44,13 +46,45 @@ std::ostream &operator<<(std::ostream &out, Whiteboard::Mode mode) {
     return out << "Whiteboard::Mode::Invalid";
 }
 
+void processInputMove(Whiteboard &w) {
+    DEBUG_ONLY(static bool changed = false);
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+        geometry::Vec2 mousePosition = w.view.getViewPosition(getMousePos());
+        geometry::Vec2 lastPosition = w.view.getViewPosition(w.mousePosition);
+        if (mousePosition == lastPosition) {
+            return;
+        }
+        DEBUG_ONLY(changed = true);
+        w.view.translate(mousePosition - lastPosition);
+    } else {
+        DEBUG_ONLY({
+            if (changed) {
+                changed = false;
+                PRINT_DBG(w.view.getPosition());
+            }
+        })
+    }
+}
+
+void processInputDraw(Whiteboard &w) {
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+        geometry::Vec2 mousePosition = w.view.getViewPosition(getMousePos());
+        w.currentDrawing.addPoint(mousePosition);
+    }
+}
+
+void processInputErase(Whiteboard &w) {}
+
 void processInput(Whiteboard &w) {
     switch (w.mode) {
     case Whiteboard::Mode::Move:
+        processInputMove(w);
         break;
     case Whiteboard::Mode::Draw:
+        processInputDraw(w);
         break;
     case Whiteboard::Mode::Erase:
+        processInputErase(w);
         break;
     }
     auto previousMode = w.mode;
@@ -69,15 +103,19 @@ void processInput(Whiteboard &w) {
     if (w.mode != previousMode) {
         PRINT_DBG(w.mode);
     }
+    w.mousePosition = getMousePos();
 }
 
-void renderWhiteboard(Whiteboard &w) {}
+void renderWhiteboard(Whiteboard &w) {
+    rendering::render(w.view, w.currentDrawing);
+}
 
 void runWhiteboard() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     SetTargetFPS(200);
     Whiteboard whiteboard;
     InitWindow(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, "Whiteboard");
+    whiteboard.mousePosition = getMousePos();
     while (!WindowShouldClose()) {
         processInput(whiteboard);
         PollInputEvents();

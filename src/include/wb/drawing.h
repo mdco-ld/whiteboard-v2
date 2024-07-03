@@ -10,6 +10,7 @@ class PartialDrawing {
   public:
     PartialDrawing();
     void addPoint(geometry::Vec2) noexcept;
+    void clear() noexcept;
 
     [[nodiscard]] const std::vector<geometry::Vec2> &getPoints() noexcept;
 

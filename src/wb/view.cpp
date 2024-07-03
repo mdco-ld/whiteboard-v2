@@ -27,7 +27,7 @@ void View::translate(geometry::Vec2 offset) noexcept {
     m_boundingBox.position = m_boundingBox.position - offset;
 }
 
-geometry::Vec2
+[[nodiscard]] geometry::Vec2
 View::getViewPosition(geometry::Vec2 screenPosition) const noexcept {
     geometry::Vec2 position = screenPosition;
     position.x = position.x * (1 / m_zoom);
@@ -36,7 +36,7 @@ View::getViewPosition(geometry::Vec2 screenPosition) const noexcept {
     return position;
 }
 
-geometry::Vec2
+[[nodiscard]] geometry::Vec2
 View::getScreenPosition(geometry::Vec2 viewPosition) const noexcept {
     geometry::Vec2 position = viewPosition;
     position = position - m_boundingBox.position;
@@ -45,7 +45,7 @@ View::getScreenPosition(geometry::Vec2 viewPosition) const noexcept {
     return position;
 }
 
-float View::getZoom() const noexcept { return m_zoom; }
+[[nodiscard]] float View::getZoom() const noexcept { return m_zoom; }
 
 void View::resetZoom() noexcept { m_zoom = DEFAULT_ZOOM; }
 
@@ -61,6 +61,10 @@ void View::zoom(geometry::Vec2 center, float z) noexcept {
     m_boundingBox.position = center + diff;
 
     m_zoom = newZoom;
+}
+
+geometry::Vec2 View::getPosition() const noexcept {
+    return m_boundingBox.position;
 }
 
 }; // namespace wb
