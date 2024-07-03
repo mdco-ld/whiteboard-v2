@@ -35,6 +35,7 @@ struct LineSegment {
     Vec2 start;
     Vec2 end;
 
+    [[nodiscard]] bool contains(geometry::Vec2) const noexcept;
     [[nodiscard]] bool intersects(LineSegment) const noexcept;
 };
 

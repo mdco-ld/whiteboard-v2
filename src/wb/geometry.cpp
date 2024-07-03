@@ -50,6 +50,10 @@ bool operator==(Vec2 point1, Vec2 point2) noexcept {
     return point1.x == point2.x && point1.y == point2.y;
 }
 
+[[nodiscard]] bool LineSegment::contains(Vec2 point) const noexcept {
+    return getOrientation(start, end, point) == Orientation::None;
+}
+
 [[nodiscard]] bool LineSegment::intersects(LineSegment other) const noexcept {
     if (getOrientation(start, end, other.start) ==
         getOrientation(start, end, other.end)) {
