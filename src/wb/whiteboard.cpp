@@ -1,3 +1,4 @@
+#include <utility>
 #include <vector>
 #include <wb/whiteboard.h>
 
@@ -80,18 +81,39 @@ void processInputDraw(Whiteboard &w) {
         if (w.currentDrawing.getPoints().empty()) {
             return;
         }
-        w.drawings.push_back(finalizeDrawing(w.currentDrawing));
+        w.drawings.push_back(Drawing::finalizeDrawing(w.currentDrawing));
         w.currentDrawing.clear();
     }
 }
 
-void processInputErase(Whiteboard &w) {}
+void processInputErase(Whiteboard &w) {
+    if (!IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+        return;
+    }
+    geometry::Vec2 mousePosition = getMousePos();
+    if (mousePosition == w.mousePosition) {
+        return;
+    }
+    geometry::LineSegment mouseMovement{
+        .start = w.view.getViewPosition(w.mousePosition),
+        .end = w.view.getViewPosition(mousePosition),
+    };
+    for (std::size_t i = 0; i < w.drawings.size(); i++) {
+        Drawing &drawing = w.drawings[i];
+        if (drawing.intersects(mouseMovement)) {
+            std::swap(w.drawings[i], w.drawings.back());
+            w.drawings.pop_back();
+            i--;
+            break;
+        }
+    }
+}
 
 void cleanupLastMode(Whiteboard &w, Whiteboard::Mode lastMode) {
     switch (lastMode) {
     case Whiteboard::Mode::Draw:
         if (!w.currentDrawing.getPoints().empty()) {
-            w.drawings.push_back(finalizeDrawing(w.currentDrawing));
+            w.drawings.push_back(Drawing::finalizeDrawing(w.currentDrawing));
             w.currentDrawing.clear();
         }
         break;

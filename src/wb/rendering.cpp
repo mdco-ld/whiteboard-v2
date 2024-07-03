@@ -34,10 +34,10 @@ void render(wb::View &view, wb::PartialDrawing &drawing) {
 }
 
 void render(wb::View &view, wb::Drawing &drawing) {
-    for (geometry::Vec2 point : drawing.points) {
+    for (geometry::Vec2 point : drawing.getPoints()) {
         render(view, point);
     }
-    for (geometry::LineSegment line : drawing.lineSegments) {
+    for (geometry::LineSegment line : drawing.getLineSegments()) {
         render(view, line);
     }
 }

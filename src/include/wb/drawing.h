@@ -6,11 +6,6 @@
 
 namespace wb {
 
-struct Drawing {
-	std::vector<geometry::Vec2> points;
-	std::vector<geometry::LineSegment> lineSegments;
-};
-
 class PartialDrawing {
   public:
     PartialDrawing();
@@ -23,7 +18,20 @@ class PartialDrawing {
     std::vector<geometry::Vec2> m_points;
 };
 
-Drawing finalizeDrawing(PartialDrawing &);
+class Drawing {
+  public:
+	static Drawing finalizeDrawing(PartialDrawing &);
+
+    [[nodiscard]] const std::vector<geometry::Vec2> &getPoints() const noexcept;
+    [[nodiscard]] const std::vector<geometry::LineSegment> &getLineSegments() const noexcept;
+	[[nodiscard]] bool intersects(geometry::LineSegment) const noexcept;
+	[[nodiscard]] bool intersects(geometry::Box) const noexcept;
+
+  private:
+    std::vector<geometry::Vec2> m_points;
+    std::vector<geometry::LineSegment> m_lineSegments;
+};
+
 
 }; // namespace wb
 
