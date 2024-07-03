@@ -5,11 +5,10 @@
 
 namespace wb {
 
-static const int DEFAULT_ZOOM = 7;
+static const int DEFAULT_ZOOM = 6;
 static const int MIN_ZOOM = 0;
-static const int ZOOM_VALUES[] = {
-    10, 20, 35, 50, 70, 80, 90, 100, 110, 125, 150, 175, 200, 250, 300,
-};
+static const int ZOOM_VALUES[] = {40,  50,  60,  70,  80,  90,  100, 110, 120,
+                                  130, 140, 150, 160, 170, 180, 200, 220, 250};
 
 static const int MAX_ZOOM = sizeof(ZOOM_VALUES) / sizeof(*ZOOM_VALUES) - 1;
 
