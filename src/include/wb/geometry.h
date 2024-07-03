@@ -46,10 +46,10 @@ struct Box {
     [[nodiscard]] bool intersects(Box) const noexcept;
 };
 
-std::ostream& operator<<(std::ostream&, Vec2);
-std::ostream& operator<<(std::ostream&, Orientation);
-std::ostream& operator<<(std::ostream&, LineSegment);
-std::ostream& operator<<(std::ostream&, Box);
+std::ostream &operator<<(std::ostream &, Vec2);
+std::ostream &operator<<(std::ostream &, Orientation);
+std::ostream &operator<<(std::ostream &, LineSegment);
+std::ostream &operator<<(std::ostream &, Box);
 
 }; // namespace geometry
 
