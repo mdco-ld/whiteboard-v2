@@ -1,3 +1,4 @@
+#include <sstream>
 #include <utility>
 #include <vector>
 #include <wb/whiteboard.h>
@@ -169,6 +170,20 @@ void renderWhiteboard(Whiteboard &w) {
     for (Drawing &drawing : w.drawings) {
         rendering::render(w.view, drawing);
     }
+    std::stringstream ss;
+    switch (w.mode) {
+    case Whiteboard::Mode::Draw:
+        ss << "DRAW ";
+		break;
+    case Whiteboard::Mode::Erase:
+        ss << "ERASE ";
+		break;
+    case Whiteboard::Mode::Move:
+        ss << "MOVE ";
+		break;
+    }
+    ss << "X: " << w.view.getPosition().x << " Y: " << w.view.getPosition().y;
+    rendering::renderStatusBar(w.view, ss.str());
 }
 
 void runWhiteboard() {

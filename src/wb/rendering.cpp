@@ -5,6 +5,7 @@
 #include <wb/view.h>
 
 #include <raylib.h>
+#include <string_view>
 
 namespace rendering {
 
@@ -40,6 +41,14 @@ void render(wb::View &view, wb::Drawing &drawing) {
     for (geometry::LineSegment line : drawing.getLineSegments()) {
         render(view, line);
     }
+}
+
+void renderStatusBar(wb::View &view, std::string_view text) {
+    int width = view.getSize().x;
+    int height = view.getSize().y;
+
+    DrawRectangle(0, height - 30, width, 30, LIGHTGRAY);
+    DrawText(text.data(), 10, height - 25, 20, BLACK);
 }
 
 }; // namespace rendering
