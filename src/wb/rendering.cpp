@@ -20,9 +20,9 @@ void render(wb::View &view, geometry::Vec2 point) {
 }
 
 void render(wb::View &view, geometry::LineSegment line) {
-	if (!view.getBoundingBox().intersects(line)) {
-		return;
-	}
+    if (!view.getBoundingBox().intersects(line)) {
+        return;
+    }
     render(view, line.start);
     render(view, line.end);
     DrawLineEx(tovec(view.getScreenPosition(line.start)),
@@ -39,7 +39,7 @@ void render(wb::View &view, wb::PartialDrawing &drawing) {
 
 void render(wb::View &view, wb::Drawing &drawing) {
     if (!drawing.intersects(view.getBoundingBox())) {
-    	return;
+        return;
     }
     for (geometry::Vec2 point : drawing.getPoints()) {
         render(view, point);

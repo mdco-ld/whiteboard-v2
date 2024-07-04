@@ -1,4 +1,4 @@
-#include "wb/geometry.h"
+#include <wb/geometry.h>
 #include <wb/view.h>
 
 #include <cmath>
@@ -6,10 +6,11 @@
 
 namespace wb {
 
-static const int DEFAULT_ZOOM = 6;
+static const int DEFAULT_ZOOM = 5;
 static const int MIN_ZOOM = 0;
-static const int ZOOM_VALUES[] = {40,  50,  60,  70,  80,  90,  100, 110, 120,
-                                  130, 140, 150, 160, 170, 180, 200, 220, 250};
+static const int ZOOM_VALUES[] = {
+    40, 48, 58, 69, 83, 100, 120, 144, 172, 207, 248, 300,
+};
 
 static const int MAX_ZOOM = sizeof(ZOOM_VALUES) / sizeof(*ZOOM_VALUES) - 1;
 

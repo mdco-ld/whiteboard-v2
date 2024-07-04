@@ -55,7 +55,7 @@ Drawing Drawing::finalizeDrawing(PartialDrawing &partialDrawing) {
         }
 
         result.m_boundingBox.position = geometry::Vec2{minX, minY};
-        result.m_boundingBox.size = geometry::Vec2{minX, minY};
+        result.m_boundingBox.size = geometry::Vec2{maxX - minX, maxY - minY};
 
         for (std::size_t i = 1; i < points.size(); i++) {
             if (i + 1 < points.size()) {
@@ -129,9 +129,9 @@ Drawing::intersects(geometry::LineSegment line) const noexcept {
 }
 
 [[nodiscard]] bool Drawing::intersects(geometry::Box box) const noexcept {
-	if (!m_boundingBox.intersects(box)) {
-		return false;
-	}
+    if (!m_boundingBox.intersects(box)) {
+        return false;
+    }
     for (geometry::Vec2 point : m_points) {
         if (box.contains(point)) {
             return true;
