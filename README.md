@@ -8,8 +8,8 @@ This is a whiteboard desktop application.
 - [X] Moving
 - [X] Zooming
 - [X] Erasing things
-- [ ] Save to file
-- [ ] Load from file
+- [X] Save to file
+- [X] Load from file
 - [ ] Drawing arrows
 - [ ] Drawing text
 - [ ] Selecting things
