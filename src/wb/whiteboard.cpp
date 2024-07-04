@@ -44,8 +44,7 @@ struct Whiteboard {
 void saveWhiteboard(Whiteboard &w) {
     std::ofstream file(w.filepath);
     if (file) {
-        std::string data = serialization::serialize(w.drawings);
-        file << data;
+        serialization::serialize(file, w.drawings);
     }
 }
 
@@ -228,9 +227,7 @@ void runWhiteboard(std::string filepath) {
     std::ifstream file;
     file.open(filepath);
     if (file) {
-        std::stringstream ss;
-        ss << file.rdbuf();
-        whiteboard.drawings = serialization::deserialize(ss.str());
+        whiteboard.drawings = serialization::deserialize(file);
     }
     InitWindow(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, "Whiteboard");
     whiteboard.mousePosition = getMousePos();

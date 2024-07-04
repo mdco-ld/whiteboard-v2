@@ -1,13 +1,14 @@
 #ifndef _SERIALIZATION_H_
 #define _SERIALIZATION_H_
 
-#include <string>
+#include <istream>
+#include <ostream>
 #include <wb/drawing.h>
 
 namespace serialization {
 
-std::string serialize(std::vector<wb::Drawing> &);
-std::vector<wb::Drawing> deserialize(std::string);
+void serialize(std::ostream &, std::vector<wb::Drawing> &);
+std::vector<wb::Drawing> deserialize(std::istream &);
 
 }; // namespace serialization
 
