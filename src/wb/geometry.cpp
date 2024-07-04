@@ -43,7 +43,7 @@ Vec2 operator-(Vec2 point1) noexcept {
 }
 
 Vec2 operator*(Vec2 point1, int scale) noexcept {
-    return Vec2{.x = -point1.x, .y = -point1.y};
+    return Vec2{.x = point1.x * scale, .y = point1.y * scale};
 }
 
 bool operator==(Vec2 point1, Vec2 point2) noexcept {
@@ -72,6 +72,9 @@ bool operator==(Vec2 point1, Vec2 point2) noexcept {
 }
 
 [[nodiscard]] bool Box::intersects(LineSegment line) const noexcept {
+    if (contains(line.start) || contains(line.end)) {
+        return true;
+    }
     if (line.intersects(LineSegment{.start = position,
                                     .end = position + Vec2::X * size.x})) {
         return true;
@@ -86,6 +89,40 @@ bool operator==(Vec2 point1, Vec2 point2) noexcept {
     }
     if (line.intersects(LineSegment{.start = position + size,
                                     .end = position + Vec2::Y * size.y})) {
+        return true;
+    }
+    return false;
+}
+
+[[nodiscard]] bool Box::intersects(Box other) const noexcept {
+    if (contains(other.position) || contains(other.position + other.size)) {
+        return true;
+    }
+    if (contains(other.position + Vec2::X * other.size.x) ||
+        contains(other.position + Vec2::Y * other.size.y)) {
+        return true;
+    }
+    if (other.contains(position) || other.contains(position + size)) {
+        return true;
+    }
+    if (other.contains(position + Vec2::X * size.x) ||
+        other.contains(position + Vec2::Y * size.y)) {
+        return true;
+    }
+    if (other.intersects(LineSegment{.start = position,
+                                     .end = position + Vec2::X * size.x})) {
+        return true;
+    }
+    if (other.intersects(LineSegment{.start = position,
+                                     .end = position + Vec2::Y * size.y})) {
+        return true;
+    }
+    if (other.intersects(LineSegment{.start = position + size,
+                                     .end = position + Vec2::X * size.x})) {
+        return true;
+    }
+    if (other.intersects(LineSegment{.start = position + size,
+                                     .end = position + Vec2::Y * size.y})) {
         return true;
     }
     return false;

@@ -19,12 +19,14 @@ class View {
     [[nodiscard]] geometry::Vec2
     getScreenPosition(geometry::Vec2 viewPosition) const noexcept;
     [[nodiscard]] int getZoom() const noexcept;
+    [[nodiscard]] geometry::Box getBoundingBox() const noexcept;
 
     [[nodiscard]] geometry::Vec2 getPosition() const noexcept;
     [[nodiscard]] geometry::Vec2 getSize() const noexcept;
 
   private:
-    geometry::Box m_boundingBox;
+	geometry::Vec2 m_position;
+	geometry::Vec2 m_size;
     int m_zoom;
 };
 

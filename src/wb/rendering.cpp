@@ -35,6 +35,9 @@ void render(wb::View &view, wb::PartialDrawing &drawing) {
 }
 
 void render(wb::View &view, wb::Drawing &drawing) {
+    if (!drawing.intersects(view.getBoundingBox())) {
+    	return;
+    }
     for (geometry::Vec2 point : drawing.getPoints()) {
         render(view, point);
     }

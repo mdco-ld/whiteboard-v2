@@ -9,9 +9,9 @@
 #include <wb/drawing.h>
 #include <wb/geometry.h>
 #include <wb/rendering.h>
+#include <wb/serialization.h>
 #include <wb/utils.h>
 #include <wb/view.h>
-#include <wb/serialization.h>
 
 namespace wb {
 
@@ -33,7 +33,7 @@ struct Whiteboard {
     PartialDrawing currentDrawing;
     std::vector<Drawing> drawings;
     geometry::Vec2 mousePosition;
-	std::string filepath;
+    std::string filepath;
 
     Whiteboard()
         : view(geometry::Vec2{0, 0},
@@ -42,11 +42,11 @@ struct Whiteboard {
 };
 
 void saveWhiteboard(Whiteboard &w) {
-	std::ofstream file(w.filepath);
-	if (file) {
-		std::string data = serialization::serialize(w.drawings);
-		file << data;
-	}
+    std::ofstream file(w.filepath);
+    if (file) {
+        std::string data = serialization::serialize(w.drawings);
+        file << data;
+    }
 }
 
 std::ostream &operator<<(std::ostream &out, Whiteboard::Mode mode) {
@@ -175,9 +175,9 @@ void processInput(Whiteboard &w) {
     float wheelMove = GetMouseWheelMove();
     w.view.zoom(w.mousePosition, wheelMove);
 
-	if (IsKeyPressed(KEY_S)) {
-		saveWhiteboard(w);
-	}
+    if (IsKeyPressed(KEY_S)) {
+        saveWhiteboard(w);
+    }
 }
 
 void renderWhiteboard(Whiteboard &w) {
@@ -198,7 +198,8 @@ void renderWhiteboard(Whiteboard &w) {
         break;
     }
     ss << "X: " << w.view.getPosition().x << " Y: " << w.view.getPosition().y
-       << " | " << w.view.getZoom() << "%";
+       << " | " << w.view.getZoom() << "%" << " | "
+       << (int)(1.0 / GetFrameTime())<< " FPS";
     rendering::renderStatusBar(w.view, ss.str());
 }
 
@@ -223,14 +224,14 @@ void runWhiteboard(std::string filepath) {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     SetTargetFPS(200);
     Whiteboard whiteboard;
-	whiteboard.filepath = filepath;
-	std::ifstream file;
-	file.open(filepath);
-	if (file) {
-		std::stringstream ss;
-		ss << file.rdbuf();
-		whiteboard.drawings = serialization::deserialize(ss.str());
-	}
+    whiteboard.filepath = filepath;
+    std::ifstream file;
+    file.open(filepath);
+    if (file) {
+        std::stringstream ss;
+        ss << file.rdbuf();
+        whiteboard.drawings = serialization::deserialize(ss.str());
+    }
     InitWindow(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, "Whiteboard");
     whiteboard.mousePosition = getMousePos();
     while (!WindowShouldClose()) {

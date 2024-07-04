@@ -1,5 +1,6 @@
-#include "wb/utils.h"
+#include <limits>
 #include <wb/drawing.h>
+#include <wb/utils.h>
 
 #include <wb/geometry.h>
 
@@ -35,8 +36,27 @@ Drawing Drawing::finalizeDrawing(PartialDrawing &partialDrawing) {
     PRINT_DBG(points.size());
     if (points.size() == 1) {
         result.m_points.push_back(points.front());
+        result.m_boundingBox.position = points.front() - geometry::Vec2{4, 4};
+        result.m_boundingBox.size = geometry::Vec2{9, 9};
+
     } else {
         geometry::Vec2 lastPoint = points.front();
+
+        int minX = std::numeric_limits<int>::max();
+        int minY = std::numeric_limits<int>::max();
+        int maxX = std::numeric_limits<int>::min();
+        int maxY = std::numeric_limits<int>::min();
+
+        for (std::size_t i = 0; i < points.size(); i++) {
+            minX = std::min(minX, points[i].x);
+            minY = std::min(minY, points[i].y);
+            maxX = std::max(maxX, points[i].x);
+            maxY = std::max(maxY, points[i].y);
+        }
+
+        result.m_boundingBox.position = geometry::Vec2{minX, minY};
+        result.m_boundingBox.size = geometry::Vec2{minX, minY};
+
         for (std::size_t i = 1; i < points.size(); i++) {
             if (i + 1 < points.size()) {
                 if (almostCollinear(lastPoint, points[i], points[i + 1])) {
@@ -56,7 +76,25 @@ Drawing Drawing::fromPoints(std::vector<geometry::Vec2> &points) {
     Drawing result;
     if (points.size() == 1) {
         result.m_points.push_back(points.front());
+        result.m_boundingBox.position = points.front() - geometry::Vec2{4, 4};
+        result.m_boundingBox.size = geometry::Vec2{9, 9};
     } else {
+
+        int minX = std::numeric_limits<int>::max();
+        int minY = std::numeric_limits<int>::max();
+        int maxX = std::numeric_limits<int>::min();
+        int maxY = std::numeric_limits<int>::min();
+
+        for (std::size_t i = 0; i < points.size(); i++) {
+            minX = std::min(minX, points[i].x);
+            minY = std::min(minY, points[i].y);
+            maxX = std::max(maxX, points[i].x);
+            maxY = std::max(maxY, points[i].y);
+        }
+
+        result.m_boundingBox.position = geometry::Vec2{minX, minY};
+        result.m_boundingBox.size = geometry::Vec2{maxX - minX, maxY - minY};
+
         for (std::size_t i = 1; i < points.size(); i++) {
             result.m_lineSegments.push_back(
                 geometry::LineSegment{points[i - 1], points[i]});
@@ -91,7 +129,20 @@ Drawing::intersects(geometry::LineSegment line) const noexcept {
 }
 
 [[nodiscard]] bool Drawing::intersects(geometry::Box box) const noexcept {
-    return true;
+	if (!m_boundingBox.intersects(box)) {
+		return false;
+	}
+    for (geometry::Vec2 point : m_points) {
+        if (box.contains(point)) {
+            return true;
+        }
+    }
+    for (geometry::LineSegment line : m_lineSegments) {
+        if (box.intersects(line)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 }; // namespace wb

@@ -31,6 +31,7 @@ class Drawing {
   private:
     std::vector<geometry::Vec2> m_points;
     std::vector<geometry::LineSegment> m_lineSegments;
+	geometry::Box m_boundingBox;
 };
 
 
