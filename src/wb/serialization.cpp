@@ -183,6 +183,7 @@ void deserialize(std::istream &in, std::vector<wb::Drawing> &output) {
 	} else {
 		throw std::runtime_error("Unsupported format version");
 	}
+	PRINT_DBG(output.size());
 }
 
 }; // namespace serialization

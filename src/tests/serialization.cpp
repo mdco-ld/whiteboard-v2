@@ -1,4 +1,3 @@
-#include <ios>
 #include <iostream>
 #include <sstream>
 #include <tests/serialization.h>
@@ -40,6 +39,19 @@ TestResult test1_2() {
     const char *name = "V1: Serializing an int 2";
     std::stringstream ss;
     int value = 256;
+    serialization::serializeV1(ss, value);
+    int value2;
+    serialization::deserializeV1(ss, value2);
+    if (value == value2) {
+        return PASS;
+    }
+    return FAIL("Output does not match original number");
+}
+
+TestResult test1_3() {
+    const char *name = "V1: Serializing an int 3";
+    std::stringstream ss;
+    int value = -40145;
     serialization::serializeV1(ss, value);
     int value2;
     serialization::deserializeV1(ss, value2);
@@ -99,7 +111,7 @@ TestResult test4() {
 TestSetResults runSerializationTests() {
     TestSetResults results;
     using namespace serializationTests;
-    auto tests = {test1, test1_2, test2, test3, test4};
+    auto tests = {test1, test1_2, test1_3, test2, test3, test4};
     std::cout << "Running serialization tests...\n";
     RUN_TESTS;
     return results;
