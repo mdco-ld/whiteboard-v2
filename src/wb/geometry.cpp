@@ -1,3 +1,4 @@
+#include <ostream>
 #include <wb/geometry.h>
 
 #include <wb/utils.h>
@@ -128,6 +129,21 @@ bool operator==(Vec2 point1, Vec2 point2) noexcept {
     return false;
 }
 
+[[nodiscard]] bool Path::intersects(LineSegment line) const noexcept {
+    if (points.empty()) {
+        return false;
+    }
+    if (points.size() == 1) {
+        return line.contains(points.front());
+    }
+    for (std::size_t i = 1; i < points.size(); i++) {
+        if (line.intersects(LineSegment{points[i - 1], points[i]})) {
+            return true;
+        }
+    }
+    return false;
+}
+
 std::ostream &operator<<(std::ostream &out, Vec2 point) {
     return out << "Vec2(" << point.x << ", " << point.y << ")";
 }
@@ -152,6 +168,17 @@ std::ostream &operator<<(std::ostream &out, LineSegment line) {
 std::ostream &operator<<(std::ostream &out, Box box) {
     return out << "Box[position = " << box.position << ", size = " << box.size
                << "]";
+}
+
+std::ostream &operator<<(std::ostream &out, Path &path) {
+    if (path.points.empty()) {
+        return out << "Path[]";
+    }
+    out << "Path[" << path.points.front();
+    for (std::size_t i = 1; i < path.points.size(); i++) {
+        out << ", " << path.points[i];
+    }
+    return out << "]";
 }
 
 }; // namespace geometry
