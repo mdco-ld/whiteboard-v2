@@ -227,7 +227,7 @@ void runWhiteboard(std::string filepath) {
     std::ifstream file;
     file.open(filepath);
     if (file) {
-        whiteboard.drawings = serialization::deserialize(file);
+        serialization::deserialize(file, whiteboard.drawings);
     }
     InitWindow(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, "Whiteboard");
     whiteboard.mousePosition = getMousePos();
