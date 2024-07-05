@@ -1,33 +1,8 @@
 [
 {
   "directory": "/home/miguel/projects/wb-v2",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/drawing.cpp.o", "src/wb/drawing.cpp"],
-  "file": "src/wb/drawing.cpp"
-},
-{
-  "directory": "/home/miguel/projects/wb-v2",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/rendering.cpp.o", "src/wb/rendering.cpp"],
-  "file": "src/wb/rendering.cpp"
-},
-{
-  "directory": "/home/miguel/projects/wb-v2",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/geometry.cpp.o", "src/wb/geometry.cpp"],
-  "file": "src/wb/geometry.cpp"
-},
-{
-  "directory": "/home/miguel/projects/wb-v2",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/whiteboard.cpp.o", "src/wb/whiteboard.cpp"],
-  "file": "src/wb/whiteboard.cpp"
-},
-{
-  "directory": "/home/miguel/projects/wb-v2",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/view.cpp.o", "src/wb/view.cpp"],
-  "file": "src/wb/view.cpp"
-},
-{
-  "directory": "/home/miguel/projects/wb-v2",
-  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/cmd/tests.cpp.o", "src/cmd/tests.cpp"],
-  "file": "src/cmd/tests.cpp"
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/wb/linux/x86_64/debug/src/wb/serialization.cpp.o", "src/wb/serialization.cpp"],
+  "file": "src/wb/serialization.cpp"
 },
 {
   "directory": "/home/miguel/projects/wb-v2",
@@ -58,4 +33,49 @@
   "directory": "/home/miguel/projects/wb-v2",
   "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/wb/linux/x86_64/debug/src/cmd/wb.cpp.o", "src/cmd/wb.cpp"],
   "file": "src/cmd/wb.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/serialization.cpp.o", "src/wb/serialization.cpp"],
+  "file": "src/wb/serialization.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/drawing.cpp.o", "src/wb/drawing.cpp"],
+  "file": "src/wb/drawing.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/rendering.cpp.o", "src/wb/rendering.cpp"],
+  "file": "src/wb/rendering.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/geometry.cpp.o", "src/wb/geometry.cpp"],
+  "file": "src/wb/geometry.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/whiteboard.cpp.o", "src/wb/whiteboard.cpp"],
+  "file": "src/wb/whiteboard.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/wb/view.cpp.o", "src/wb/view.cpp"],
+  "file": "src/wb/view.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/tests/serialization.cpp.o", "src/tests/serialization.cpp"],
+  "file": "src/tests/serialization.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/tests/geometry.cpp.o", "src/tests/geometry.cpp"],
+  "file": "src/tests/geometry.cpp"
+},
+{
+  "directory": "/home/miguel/projects/wb-v2",
+  "arguments": ["/usr/bin/gcc", "-c", "-m64", "-Wall", "-Isrc/include", "-DDEBUG_MODE", "-o", "build/.objs/tests/linux/x86_64/debug/src/cmd/tests.cpp.o", "src/cmd/tests.cpp"],
+  "file": "src/cmd/tests.cpp"
 }]
