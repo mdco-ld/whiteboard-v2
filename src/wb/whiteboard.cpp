@@ -60,124 +60,151 @@ std::ostream &operator<<(std::ostream &out, Whiteboard::Mode mode) {
     return out << "Whiteboard::Mode::Invalid";
 }
 
-void processInputMove(Whiteboard &w) {
-    DEBUG_ONLY(static bool changed = false);
-    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
-        geometry::Vec2 mousePosition = w.view.getViewPosition(getMousePos());
-        geometry::Vec2 lastPosition = w.view.getViewPosition(w.mousePosition);
-        if (mousePosition == lastPosition) {
-            return;
-        }
-        DEBUG_ONLY(changed = true);
-        w.view.translate(mousePosition - lastPosition);
-    } else {
-        DEBUG_ONLY({
-            if (changed) {
-                changed = false;
-                PRINT_DBG(w.view.getPosition());
+class WhiteboardMode {
+  public:
+    virtual ~WhiteboardMode() {};
+    virtual void handleInput(Whiteboard &) = 0;
+    virtual void cleanup(Whiteboard &) = 0;
+};
+
+class WhiteboardMoveMode : public WhiteboardMode {
+  public:
+    virtual void handleInput(Whiteboard &w) {
+        DEBUG_ONLY(static bool changed = false);
+        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+            geometry::Vec2 mousePosition =
+                w.view.getViewPosition(getMousePos());
+            geometry::Vec2 lastPosition =
+                w.view.getViewPosition(w.mousePosition);
+            if (mousePosition == lastPosition) {
+                return;
             }
-        });
-    }
-}
-
-void processInputDraw(Whiteboard &w) {
-    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
-        geometry::Vec2 mousePosition = w.view.getViewPosition(getMousePos());
-        if (mousePosition == w.mousePosition &&
-            !w.currentDrawing.getPoints().empty()) {
-            return;
-        }
-        w.currentDrawing.addPoint(mousePosition);
-    } else {
-        if (w.currentDrawing.getPoints().empty()) {
-            return;
-        }
-        w.drawings.push_back(Drawing::finalizeDrawing(w.currentDrawing));
-        w.currentDrawing.clear();
-    }
-}
-
-void processInputErase(Whiteboard &w) {
-    if (!IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
-        return;
-    }
-    geometry::Vec2 mousePosition = getMousePos();
-    if (mousePosition == w.mousePosition) {
-        return;
-    }
-    geometry::LineSegment mouseMovement{
-        .start = w.view.getViewPosition(w.mousePosition),
-        .end = w.view.getViewPosition(mousePosition),
-    };
-    for (std::size_t i = 0; i < w.drawings.size(); i++) {
-        Drawing &drawing = w.drawings[i];
-        if (drawing.intersects(mouseMovement)) {
-            std::swap(w.drawings[i], w.drawings.back());
-            w.drawings.pop_back();
-            i--;
-            break;
+            DEBUG_ONLY(changed = true);
+            w.view.translate(mousePosition - lastPosition);
+        } else {
+            DEBUG_ONLY({
+                if (changed) {
+                    changed = false;
+                    PRINT_DBG(w.view.getPosition());
+                }
+            });
         }
     }
-}
+    void cleanup(Whiteboard &w) {}
+};
 
-void cleanupLastMode(Whiteboard &w, Whiteboard::Mode lastMode) {
-    switch (lastMode) {
-    case Whiteboard::Mode::Draw:
+class WhiteboardDrawMode : public WhiteboardMode {
+  public:
+    virtual void handleInput(Whiteboard &w) {
+        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+            geometry::Vec2 mousePosition =
+                w.view.getViewPosition(getMousePos());
+            if (mousePosition == w.mousePosition &&
+                !w.currentDrawing.getPoints().empty()) {
+                return;
+            }
+            w.currentDrawing.addPoint(mousePosition);
+        } else {
+            if (w.currentDrawing.getPoints().empty()) {
+                return;
+            }
+            w.drawings.push_back(Drawing::finalizeDrawing(w.currentDrawing));
+            w.currentDrawing.clear();
+        }
+    }
+    void cleanup(Whiteboard &w) {
         if (!w.currentDrawing.getPoints().empty()) {
             w.drawings.push_back(Drawing::finalizeDrawing(w.currentDrawing));
             w.currentDrawing.clear();
         }
-        break;
-    case Whiteboard::Mode::Erase:
-        break;
-    case Whiteboard::Mode::Move:
-        break;
     }
-}
+};
 
-void processInput(Whiteboard &w) {
-    switch (w.mode) {
-    case Whiteboard::Mode::Move:
-        processInputMove(w);
-        break;
-    case Whiteboard::Mode::Draw:
-        processInputDraw(w);
-        break;
-    case Whiteboard::Mode::Erase:
-        processInputErase(w);
-        break;
+class WhiteboardEraseMode : public WhiteboardMode {
+  public:
+    virtual void handleInput(Whiteboard &w) {
+        if (!IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+            return;
+        }
+        geometry::Vec2 mousePosition = getMousePos();
+        if (mousePosition == w.mousePosition) {
+            return;
+        }
+        geometry::LineSegment mouseMovement{
+            .start = w.view.getViewPosition(w.mousePosition),
+            .end = w.view.getViewPosition(mousePosition),
+        };
+        for (std::size_t i = 0; i < w.drawings.size(); i++) {
+            Drawing &drawing = w.drawings[i];
+            if (drawing.intersects(mouseMovement)) {
+                std::swap(w.drawings[i], w.drawings.back());
+                w.drawings.pop_back();
+                i--;
+                break;
+            }
+        }
     }
-    auto previousMode = w.mode;
-    if (IsWindowResized()) {
-        w.view.setSize(geometry::Vec2{GetScreenWidth(), GetScreenHeight()});
-        PRINT_DBG(w.view.getSize());
-    }
-    if (IsKeyPressed(KEY_E)) {
-        w.mode = Whiteboard::Mode::Erase;
-    }
-    if (IsKeyPressed(KEY_D)) {
-        w.mode = Whiteboard::Mode::Draw;
-    }
-    if (IsKeyPressed(KEY_W)) {
-        w.mode = Whiteboard::Mode::Move;
-    }
-    if (w.mode != previousMode) {
-        cleanupLastMode(w, previousMode);
-        PRINT_DBG(w.mode);
-    }
-    w.mousePosition = getMousePos();
+    void cleanup(Whiteboard &w) {}
+};
 
-    if (IsKeyPressed(KEY_ZERO)) {
-        w.view.resetZoom();
+class BaseWhiteboardMode : public WhiteboardMode {
+  public:
+    BaseWhiteboardMode() {
+		drawMode = new WhiteboardDrawMode();
+		eraseMode = new WhiteboardEraseMode();
+		moveMode = new WhiteboardMoveMode();
+        m_currentMode = moveMode;
     }
 
-    float wheelMove = GetMouseWheelMove();
-    w.view.zoom(w.mousePosition, wheelMove);
+    void handleInput(Whiteboard &w) override {
+        m_currentMode->handleInput(w);
+        if (IsWindowResized()) {
+            w.view.setSize(geometry::Vec2{GetScreenWidth(), GetScreenHeight()});
+            PRINT_DBG(w.view.getSize());
+        }
+        if (IsKeyPressed(KEY_E)) {
+            w.mode = Whiteboard::Mode::Erase;
+            if (m_currentMode != eraseMode) {
+                m_currentMode->cleanup(w);
+            }
+            m_currentMode = eraseMode;
+        }
+        if (IsKeyPressed(KEY_D)) {
+            w.mode = Whiteboard::Mode::Draw;
+            if (m_currentMode != drawMode) {
+                m_currentMode->cleanup(w);
+            }
+            m_currentMode = drawMode;
+        }
+        if (IsKeyPressed(KEY_W)) {
+            w.mode = Whiteboard::Mode::Move;
+            if (m_currentMode != moveMode) {
+                m_currentMode->cleanup(w);
+            }
+            m_currentMode = moveMode;
+        }
+        w.mousePosition = getMousePos();
 
-    if (IsKeyPressed(KEY_S)) {
-        saveWhiteboard(w);
+        if (IsKeyPressed(KEY_ZERO)) {
+            w.view.resetZoom();
+        }
+
+        float wheelMove = GetMouseWheelMove();
+        w.view.zoom(w.mousePosition, wheelMove);
+
+        if (IsKeyPressed(KEY_S)) {
+            saveWhiteboard(w);
+        }
     }
-}
+
+    void cleanup(Whiteboard &w) override {}
+
+  private:
+    WhiteboardMode *drawMode;
+    WhiteboardMode *eraseMode;
+    WhiteboardMode *moveMode;
+    WhiteboardMode *m_currentMode;
+};
 
 void renderWhiteboard(Whiteboard &w) {
     rendering::render(w.view, w.currentDrawing);
@@ -198,7 +225,7 @@ void renderWhiteboard(Whiteboard &w) {
     }
     ss << "X: " << w.view.getPosition().x << " Y: " << w.view.getPosition().y
        << " | " << w.view.getZoom() << "%" << " | "
-       << (int)(1.0 / GetFrameTime())<< " FPS";
+       << (int)(1.0 / GetFrameTime()) << " FPS";
     rendering::renderStatusBar(w.view, ss.str());
 }
 
@@ -208,9 +235,9 @@ void runWhiteboard() {
     Whiteboard whiteboard;
     InitWindow(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, "Whiteboard");
     whiteboard.mousePosition = getMousePos();
+    BaseWhiteboardMode baseMode;
     while (!WindowShouldClose()) {
-        processInput(whiteboard);
-        PollInputEvents();
+        baseMode.handleInput(whiteboard);
         BeginDrawing();
         ClearBackground(WHITE);
         renderWhiteboard(whiteboard);
@@ -231,8 +258,9 @@ void runWhiteboard(std::string filepath) {
     }
     InitWindow(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, "Whiteboard");
     whiteboard.mousePosition = getMousePos();
+    BaseWhiteboardMode baseMode;
     while (!WindowShouldClose()) {
-        processInput(whiteboard);
+        baseMode.handleInput(whiteboard);
         PollInputEvents();
         BeginDrawing();
         ClearBackground(WHITE);
