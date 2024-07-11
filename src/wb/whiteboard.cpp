@@ -225,7 +225,7 @@ void renderWhiteboard(Whiteboard &w) {
     }
     ss << "X: " << w.view.getPosition().x << " Y: " << w.view.getPosition().y
        << " | " << w.view.getZoom() << "%" << " | "
-       << (int)(1.0 / GetFrameTime()) << " FPS";
+       << GetFPS() << " FPS";
     rendering::renderStatusBar(w.view, ss.str());
 }
 
