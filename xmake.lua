@@ -11,6 +11,7 @@ target("wb")
 	add_packages("raylib")
 	add_includedirs("src/include")
 	set_warnings("all")
+	set_optimize("faster")
 	if is_mode("debug") then
 		add_defines("DEBUG_MODE")
 	end
